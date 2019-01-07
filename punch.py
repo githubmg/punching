@@ -79,7 +79,7 @@ def greengrass_infinite_infer_run():
         #game = SimonGame('test')
         ##TODO FIX THIS PATH
         modelPath = "/home/aws_cam/faster_184.xml"
-
+        
         # Send a starting message to IoT console
         #client.publish(topic=iotTopic, payload="Simon Say Game Starting")
         #results_thread = FIFO_Thread()
@@ -91,9 +91,9 @@ def greengrass_infinite_infer_run():
         #client.publish(topic=iotTopic, payload="Model loaded")
 
         doInfer = True
-	#game_count = 0
-	poses = []
-	collect_data = True
+    #game_count = 0
+    poses = []
+    collect_data = True
         while doInfer:
             # Get a frame from the video stream
             ret, frame = awscam.getLastFrame()
@@ -121,10 +121,10 @@ def greengrass_infinite_infer_run():
 
             print pad
             transposeImage = np.transpose(np.float32(imageToTest_padded[:,:,:]), (2,0,1))/255.0-0.5
-						
-						print 'transpose Image /n'
-						print transposeImage.shape
-						
+
+            print 'transpose Image /n'
+            print transposeImage.shape
+
             startt = time.time()
             output = model.doInference(transposeImage)
             endt = time.time()
