@@ -143,11 +143,15 @@ def greengrass_infinite_infer_run():
            
             startt = time.time()
             output = model.doInference(transposeImage)
+            
             endt = time.time()
             print (endt - startt)
             
             h = output["Mconv7_stage4_L2"]
+            print h.shape
             p = output["Mconv7_stage4_L1"]
+            
+            print p.shape
             print output
 
 #    except Exception as e:
