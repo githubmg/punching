@@ -121,13 +121,22 @@ def greengrass_infinite_infer_run():
             
             cframe = frame[0:1520,left:left+1520,:]
             scaledImg = image_resize(cframe, width=184)
+            
+            img = Image.fromarray(scaledImg, 'RGB')
+            img.save('scaledImg.png')
+            
+            
             heatmap_avg = np.zeros((scaledImg.shape[0], scaledImg.shape[1], 16))
             paf_avg = np.zeros((scaledImg.shape[0], scaledImg.shape[1], 28))
 
             imageToTest = cv2.resize(scaledImg, (0,0), fx=1, fy=1, interpolation=cv2.INTER_CUBIC)
             print imageToTest.shape
+            
             imageToTest_padded, pad = padRightDownCorner(imageToTest, 8, 128)
-
+            
+            img = Image.fromarray(imageToTest_padded, 'RGB')
+            img.save('imageToTest_padded.png')
+            
             print pad
             transposeImage = np.transpose(np.float32(imageToTest_padded[:,:,:]), (2,0,1))/255.0-0.5
 
