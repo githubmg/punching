@@ -121,8 +121,10 @@ def greengrass_infinite_infer_run():
 
             print pad
             transposeImage = np.transpose(np.float32(imageToTest_padded[:,:,:]), (2,0,1))/255.0-0.5
-
-
+						
+						print 'transpose Image /n'
+						print transposeImage.shape
+						
             startt = time.time()
             output = model.doInference(transposeImage)
             endt = time.time()
