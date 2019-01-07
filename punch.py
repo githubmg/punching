@@ -125,7 +125,7 @@ def greengrass_infinite_infer_run():
             print pad
             transposeImage = np.transpose(np.float32(imageToTest_padded[:,:,:]), (2,0,1))/255.0-0.5
 
-            img = Image.fromarray(transposeImage.transpose(1, 2, 0), 'RGB')
+            img = Image.fromarray(imageToTest, 'RGB')
             img.save('out.png')
             
             startt = time.time()
