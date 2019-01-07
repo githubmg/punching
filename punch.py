@@ -101,9 +101,15 @@ def greengrass_infinite_infer_run():
             # Get a frame from the video stream
             ret, frame = awscam.getLastFrame()
             
+            
             # Raise an exception if failing to get a frame
             if ret == False:
                 raise Exception("Failed to get frame from the stream")
+            
+            
+            img = Image.fromarray(frame, 'RGB')
+            img.save('frame.png')
+            
             
             #Prepare Image for Network
             
@@ -125,9 +131,7 @@ def greengrass_infinite_infer_run():
             print pad
             transposeImage = np.transpose(np.float32(imageToTest_padded[:,:,:]), (2,0,1))/255.0-0.5
 
-            img = Image.fromarray(imageToTest, 'RGB')
-            img.save('out.png')
-            
+           
             startt = time.time()
             output = model.doInference(transposeImage)
             endt = time.time()
