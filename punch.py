@@ -17,6 +17,9 @@ import mxnet as mx
 from threading import Thread
 #from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 from scipy.ndimage.filters import gaussian_filter
+from PIL import Image
+
+
 #from pygame import mixer
 
 ### Helper Functions ##
@@ -122,9 +125,9 @@ def greengrass_infinite_infer_run():
             print pad
             transposeImage = np.transpose(np.float32(imageToTest_padded[:,:,:]), (2,0,1))/255.0-0.5
 
-            print 'transpose Image /n'
-            print transposeImage.shape
-
+            img = Image.fromarray(arr, 'RGB')
+            img.save('out.png')
+            
             startt = time.time()
             output = model.doInference(transposeImage)
             endt = time.time()
