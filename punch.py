@@ -91,9 +91,9 @@ def greengrass_infinite_infer_run():
         #client.publish(topic=iotTopic, payload="Model loaded")
 
         doInfer = True
-    #game_count = 0
-    poses = []
-    collect_data = True
+        #game_count = 0
+        poses = []
+        collect_data = True
         while doInfer:
             # Get a frame from the video stream
             ret, frame = awscam.getLastFrame()
@@ -137,7 +137,7 @@ def greengrass_infinite_infer_run():
 #    except Exception as e:
 #        msg = "Test failed: " + str(e)
 #        print e
-	#client.publish(topic=iotTopic, payload=msg)
+#client.publish(topic=iotTopic, payload=msg)
 
     # Asynchronously schedule this function to be run again in 15 seconds
     #Timer(15, greengrass_infinite_infer_run).start()
