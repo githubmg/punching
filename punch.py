@@ -167,10 +167,12 @@ def greengrass_infinite_infer_run():
             print 'heatmapshape'
             print heatmap.shape
             
+            scaledImgRendered = Image.fromarray(scaledImg, 'RGB')
             for i in range(16):
                 
                 im2 = Image.fromarray(heatmap[:,:,i], 'RGB')
-                new_img = Image.blend(scaledImg, im2, 0.5)
+                
+                new_img = Image.blend(scaledImgRendered, im2, 0.5)
                 new_img.save('heatmap' + str(i) + '.png')
           
 
