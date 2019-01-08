@@ -150,10 +150,41 @@ def greengrass_infinite_infer_run():
             h = output["Mconv7_stage4_L2"]
             print h.shape
             p = output["Mconv7_stage4_L1"]
-            
             print p.shape
-            print output
+            
+            heatmap1 = h.reshape([16,23,23]) 
+            heatmap = np.transpose(heatmap1, (1,2,0))
 
+            #print heatmap1.shape
+            #print heatmap.shape
+            #heatmap = np.moveaxis(h, 0, -1)
+
+            heatmap = cv2.resize(heatmap, (0,0), fx=8, fy=8, interpolation=cv2.INTER_CUBIC)
+            heatmap = heatmap[:imageToTest_padded.shape[0]-pad[2], :imageToTest_padded.shape[1]-pad[3], :]
+            heatmap = cv2.resize(heatmap, (scaledImg.shape[1], scaledImg.shape[0]), interpolation=cv2.INTER_CUBIC)
+
+            heatmap_avg = heatmap_avg + heatmap / 1
+
+            paf1 = p.reshape([28,23,23])
+            paf = np.transpose(paf1, (1,2,0))
+
+            #paf = np.moveaxis(result[0].asnumpy()[0], 0, -1)
+            paf = cv2.resize(paf, (0,0), fx=8, fy=8, interpolation=cv2.INTER_CUBIC)
+            paf = paf[:imageToTest_padded.shape[0]-pad[2], :imageToTest_padded.shape[1]-pad[3], :]
+            paf = cv2.resize(paf, (scaledImg.shape[1], scaledImg.shape[0]), interpolation=cv2.INTER_CUBIC)
+            
+            print 'paf shape'
+            print paf.shape
+
+            paf_avg = paf_avg + paf / 1
+            
+            ## ????
+            
+            dst = scaledImg
+            dst[:,:,2] = dst[:,:,2]+ (heatmap_avg[:,:,15]+0.5)/2*255
+
+
+            
 #    except Exception as e:
 #        msg = "Test failed: " + str(e)
 #        print e
