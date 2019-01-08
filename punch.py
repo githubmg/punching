@@ -157,64 +157,22 @@ def greengrass_infinite_infer_run():
             heatmap = np.transpose(heatmap1, (1,2,0))
 
             #print heatmap1.shape
-            #print heatmap.shape
+            
             #heatmap = np.moveaxis(h, 0, -1)
 
             heatmap = cv2.resize(heatmap, (0,0), fx=8, fy=8, interpolation=cv2.INTER_CUBIC)
             heatmap = heatmap[:imageToTest_padded.shape[0]-pad[2], :imageToTest_padded.shape[1]-pad[3], :]
             heatmap = cv2.resize(heatmap, (scaledImg.shape[1], scaledImg.shape[0]), interpolation=cv2.INTER_CUBIC)
-
-            heatmap_avg = heatmap_avg + heatmap / 1
-
-            paf1 = p.reshape([28,23,23])
-            paf = np.transpose(paf1, (1,2,0))
-
-            #paf = np.moveaxis(result[0].asnumpy()[0], 0, -1)
-            paf = cv2.resize(paf, (0,0), fx=8, fy=8, interpolation=cv2.INTER_CUBIC)
-            paf = paf[:imageToTest_padded.shape[0]-pad[2], :imageToTest_padded.shape[1]-pad[3], :]
-            paf = cv2.resize(paf, (scaledImg.shape[1], scaledImg.shape[0]), interpolation=cv2.INTER_CUBIC)
             
-            print 'paf shape'
-            print paf.shape
-
-            paf_avg = paf_avg + paf / 1
+            print 'heatmapshape'
+            print heatmap.shape
             
-            ## ????
-            
-            dst = scaledImg
-            dst[:,:,2] = dst[:,:,2]+ (heatmap_avg[:,:,15]+0.5)/2*255
-            all_peaks = []
-            peak_counter = 0
-            
-            param={}
-            param['thre1'] = 0.1
-            
-            for part in range(17-1):
-                x_list = []
-                y_list = []
-                map_ori = heatmap_avg[:,:,part]
-                map = gaussian_filter(map_ori, sigma=3)
-
-                map_left = np.zeros(map.shape)
-                map_left[1:,:] = map[:-1,:]
-                map_right = np.zeros(map.shape)
-                map_right[:-1,:] = map[1:,:]
-                map_up = np.zeros(map.shape)
-                map_up[:,1:] = map[:,:-1]
-                map_down = np.zeros(map.shape)
-                map_down[:,:-1] = map[:,1:]
-
-                peaks_binary = np.logical_and.reduce((map>=map_left, map>=map_right, map>=map_up, map>=map_down, map > param['thre1']))
-                peaks = zip(np.nonzero(peaks_binary)[1], np.nonzero(peaks_binary)[0]) # note reverse
-                peaks_with_score = [x + (map_ori[x[1],x[0]],) for x in peaks]
-                id = range(peak_counter, peak_counter + len(peaks))
-                peaks_with_score_and_id = [peaks_with_score[i] + (id[i],) for i in range(len(id))]
-
-                all_peaks.append(peaks_with_score_and_id)
-                peak_counter += len(peaks)
-            
-            print 'allpeaks'
-            pprint(all_peaks)
+            for i in range(16):
+                
+                im2 = Image.fromarray(heatmap[:,:,i], 'RGB')
+                new_img = Image.blend(scaledImg, im2, 0.5)
+                new_img.save('heatmap' + str(i) + '.png')
+          
 
             
 #    except Exception as e:
