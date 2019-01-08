@@ -201,8 +201,7 @@ def greengrass_infinite_infer_run():
                 map_down = np.zeros(map.shape)
                 map_down[:,:-1] = map[:,1:]
 
-                peaks_binary = np.logical_and.reduce((map>=map_left, map>=map_right, map>=map_up, map>=map_down, map > \ 
-                                                      param['thre1']))
+                peaks_binary = np.logical_and.reduce((map>=map_left, map>=map_right, map>=map_up, map>=map_down, map > param['thre1']))
                 peaks = zip(np.nonzero(peaks_binary)[1], np.nonzero(peaks_binary)[0]) # note reverse
                 peaks_with_score = [x + (map_ori[x[1],x[0]],) for x in peaks]
                 id = range(peak_counter, peak_counter + len(peaks))
