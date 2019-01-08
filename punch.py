@@ -185,7 +185,10 @@ def greengrass_infinite_infer_run():
             dst[:,:,2] = dst[:,:,2]+ (heatmap_avg[:,:,15]+0.5)/2*255
             all_peaks = []
             peak_counter = 0
-
+            
+            param={}
+            param['thre1'] = 0.1
+            
             for part in range(17-1):
                 x_list = []
                 y_list = []
